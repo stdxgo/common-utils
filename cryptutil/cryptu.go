@@ -1,4 +1,4 @@
-package cryptu
+package cryptutil
 
 import (
 	"errors"

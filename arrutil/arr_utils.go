@@ -1,4 +1,4 @@
-package arru
+package arrutil
 
 func Filter[T any](arr []T, passFunc func(T) bool) []T {
 

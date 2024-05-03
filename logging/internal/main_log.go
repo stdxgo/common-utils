@@ -30,8 +30,8 @@ func DefaultLogCfg(logCfg *logtypes.LogConfig) {
 		logCfg.LogPath = "log"
 	}
 	//
-	if logCfg.LogAge <= 30 {
-		logCfg.LogAge = 30
+	if logCfg.LogAge <= 3 {
+		logCfg.LogAge = 3
 	}
 	if logCfg.AppName == "" {
 		logCfg.AppName = "app"
