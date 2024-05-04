@@ -29,6 +29,10 @@ func NewTraceContext(ctx context.Context) context.Context {
 	return trace(ctx, randomTraceValue())
 }
 
+func NewTraceContextWithId(ctx context.Context, traceId string) context.Context {
+	return trace(ctx, ctxVal(traceId))
+}
+
 func trace(ctx context.Context, val ctxVal) context.Context {
 	return context.WithValue(ctx, TraceCtxKey, val)
 }

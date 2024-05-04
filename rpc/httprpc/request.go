@@ -80,39 +80,7 @@ type appRequest struct {
 	disabledKeepAlive bool
 	certPool          *x509.CertPool
 	pathParam         map[string]string
-}
-
-// NewAppRequest 初始化一个默认的Request对象
-func NewAppRequest() AppRequest {
-
-	r := &appRequest{
-		timeout:  60,
-		certPool: certPool,
-		client:   cli,
-	}
-	return r
-}
-
-// NewAppRequestWithFiveSeconds 创建一个调用外部接口超时时间设置为5s的Request
-func NewAppRequestWithFiveSeconds() AppRequest {
-
-	r := &appRequest{
-		timeout:  5,
-		certPool: certPool,
-		client:   cliFiveSeconds,
-	}
-	return r
-}
-
-// NewAppRequestWithTimeout 自定义超时时间的RequestClient
-func NewAppRequestWithTimeout(second int) AppRequest {
-
-	r := &appRequest{
-		timeout:  second,
-		certPool: certPool,
-		client:   getTimeoutHTTPClient(second),
-	}
-	return r
+	traceKey          string
 }
 
 func (r *appRequest) DisabledKeepAlive(disabledKeepAlive bool) AppRequest {
@@ -197,6 +165,7 @@ func (r *appRequest) buildRequest(ctx context.Context, url string, method string
 		request.Header = r.rawHeaders
 	}
 	add2Header(request, defaultHeaders)
+	r.addTraceId2Header(ctx, request)
 	return request, nil
 }
 

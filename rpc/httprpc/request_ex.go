@@ -1,7 +1,9 @@
 package httprpc
 
 import (
+	"context"
 	"crypto/tls"
+	"github.com/stdxgo/common-utils/excontext"
 	"github.com/stdxgo/common-utils/logging"
 	"net/http"
 	"sync"
@@ -13,9 +15,19 @@ var (
 	timeoutMapLock sync.Mutex
 )
 
+// traceId
+func (r *appRequest) addTraceId2Header(ctx context.Context, req *http.Request) {
+	if tid := excontext.GetTraceID(ctx); tid != "" {
+		if r.traceKey == "" {
+			r.traceKey = RPC_TRACE_KEY
+		}
+		req.Header.Add(r.traceKey, tid)
+	}
+}
+
 func getTimeoutHTTPClient(seconds int) *http.Client {
-	if seconds < 5 {
-		seconds = 5
+	if seconds <= 5 {
+		return cliFiveSeconds
 	}
 	if seconds == 60 {
 		return cli
