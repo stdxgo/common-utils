@@ -1,4 +1,4 @@
-package locku
+package memlock
 
 type LockEntry struct {
 	RequestID string //

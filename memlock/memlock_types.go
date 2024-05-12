@@ -1,4 +1,4 @@
-package locku
+package memlock
 
 import (
 	"fmt"
