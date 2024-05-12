@@ -1,12 +1,5 @@
 package locku
 
-import "context"
-
-type Locker interface {
-	Lock(ctx context.Context, entry LockEntry) error
-	Unlock(ctx context.Context, entry LockEntry)
-}
-
 type LockEntry struct {
 	RequestID string //
 	Type      string
