@@ -7,16 +7,16 @@ var (
 	stableNumSeed = rand.New(rand.NewSource(1))
 )
 
-// GenStr4Test 随机所有字符（数字、大小写字母）:
+// Gen_Test_Str_Only_For_Test 随机所有字符（数字、大小写字母）:
 // 仅用于测试，稳定生成
-func GenStr4Test(le int) string {
+func Gen_Test_Str_Only_For_Test(le int) string {
 
 	return genStrWithInputsAndRand(stableStrSeed, digitLetterBytes, le)
 }
 
-// GenNum4Test 数字 :
+// Gen_Test_Num_Only_For_Test 数字 :
 // 仅用于测试，稳定生成
-func GenNum4Test(le int) string {
+func Gen_Test_Num_Only_For_Test(le int) string {
 	return genStrWithInputsAndRand(stableNumSeed, digitBytes, le)
 }
 
