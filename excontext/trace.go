@@ -16,7 +16,7 @@ const (
 )
 
 func randomTraceValue() ctxVal {
-	return ctxVal(strutil.GenRandomDigitLowerLetter(16))
+	return ctxVal(strutil.GenLowerLettersAndNum(16))
 }
 
 // NewExTraceContext 创建一个ExTraceContext

@@ -35,7 +35,7 @@ func AesCtrDecrypt(encryptData, key string) (string, error) {
 
 func aesCtrEncryptRaw(plainText, key []byte) (string, error) {
 
-	iv := strutil.GenRandomDigitLowerLetter(4)
+	iv := strutil.GenLowerLettersAndNum(4)
 	dst, err := aesCtrEncrypt(plainText, key, bytes.Repeat([]byte(iv), 4))
 	if err != nil {
 		return "", err

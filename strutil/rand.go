@@ -8,34 +8,30 @@ import (
 )
 
 const (
-	digit           = "0123456789"
-	lowerCaseLetter = "abcdefghijklmnopqrstuvwxyz"
-	upperCaseLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	Digit           = "0123456789"
+	LowerCaseLetter = "abcdefghijklmnopqrstuvwxyz"
+	UpperCaseLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )
 
 var (
-	strLetter        = []byte(digit + lowerCaseLetter + upperCaseLetter)
-	digitLowerLetter = []byte(digit + lowerCaseLetter)
+	digitBytes            = []byte(Digit)
+	digitLowerLetterBytes = []byte(Digit + LowerCaseLetter)
+	letterBytes           = []byte(LowerCaseLetter + UpperCaseLetter)
+	digitLetterBytes      = []byte(Digit + LowerCaseLetter + UpperCaseLetter)
 )
 
-// GenRandomString 生成随机字符串
-func GenRandomString(length int) string {
-	return genStrByLenAndBaseStr(strLetter, length)
+func genStrWithInputs(bytes []byte, length int) string {
+
+	randomGen := rand.New(rand.NewSource(time.Now().UnixNano() + rand.Int63()))
+	return genStrWithInputsAndRand(randomGen, bytes, length)
 }
 
-// GenRandomDigitLowerLetter 生成小写字母与数字随机串
-func GenRandomDigitLowerLetter(length int) string {
-	return genStrByLenAndBaseStr(digitLowerLetter, length)
-}
-
-func genStrByLenAndBaseStr(bytes []byte, length int) string {
+func genStrWithInputsAndRand(rg *rand.Rand, bytes []byte, length int) string {
 
 	bytesLen := len(bytes)
 	retVal := make([]byte, 0, length)
-
-	randomGen := rand.New(rand.NewSource(time.Now().UnixNano() + rand.Int63()))
 	for i := 0; i < length; i++ {
-		retVal = append(retVal, bytes[randomGen.Intn(bytesLen)])
+		retVal = append(retVal, bytes[rg.Intn(bytesLen)])
 	}
 	return string(retVal)
 }
