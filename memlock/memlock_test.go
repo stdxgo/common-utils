@@ -35,8 +35,8 @@ func genLock(keysLen int) LockEntry {
 var (
 	_testKeysFormat       = func(keys []string) string { return strings.Join(keys, "_") }
 	_testTimeFormatLayout = "2006-01-02 15:04:05.000"
-	_testLockDebugFunc    = func(key, owner string, lockedTimes int) {
-		fmt.Printf("%s\t%s\tcnt_%d\n", key, owner, lockedTimes)
+	_testLockDebugFunc    = func(action, key, owner string, lockedTimes int) {
+		fmt.Printf("%s:\t%s\t%s\tcnt_%d\n", action, key, owner, lockedTimes)
 	}
 	_testLockClrDebugFunc = func(keys []string) {
 		fmt.Printf("clear keys[%s]:%s\n", time.Now().Format(_testTimeFormatLayout), strings.Join(keys, ","))
@@ -57,7 +57,7 @@ func TestReentrant(t *testing.T) {
 	const keysN = 1
 
 	DefaultGlobalMemoryLockOpt(
-		//WithLockDebugFunc(_testLockDebugFunc),
+		WithLockDebugFunc(_testLockDebugFunc),
 		WithLockClearSec(1),
 		WithClearDebugFunc(_testLockClrDebugFunc),
 	)
