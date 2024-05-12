@@ -19,7 +19,7 @@ type ReentrantLock interface {
 type LockOpt func(rl *reentrantLock)
 
 // LockDebugFunc only called on locking succeed or unlocking
-type LockDebugFunc func(key, id string, lockedTimes int)
+type LockDebugFunc func(action, key, id string, lockedTimes int)
 type ClearDebugFunc func(keys []string)
 
 func WithLockDebugFunc(lckDebugFunc LockDebugFunc) LockOpt {
@@ -84,7 +84,7 @@ func (rl *reentrantLock) LockKeysInMemory(entry LockEntry) {
 		if lock.owner == entry.RequestID || lock.cnt == 0 {
 			lock.cnt++
 			lock.owner = entry.RequestID
-			rl.runLckDebugFunctions(lock.key, lock.owner, lock.cnt)
+			rl.runLckDebugFunctions("locked", lock.key, lock.owner, lock.cnt)
 			return true
 		}
 		lock.wait()
@@ -105,7 +105,7 @@ func (rl *reentrantLock) UnlockKeysInMemory(entry LockEntry) {
 			panic(fmt.Sprintf("try[id:%s] unlock a not exist lock", entry.RequestID))
 		}
 		lock.cnt--
-		rl.runLckDebugFunctions(lock.key, lock.owner, lock.cnt)
+		rl.runLckDebugFunctions("unlocked", lock.key, lock.owner, lock.cnt)
 		return true
 	})
 }
@@ -147,9 +147,9 @@ func (rl *reentrantLock) lockInMemoryWithAction(entry LockEntry, checkLockAndDo 
 	}
 }
 
-func (rl *reentrantLock) runLckDebugFunctions(key, id string, lockedTimes int) {
+func (rl *reentrantLock) runLckDebugFunctions(action, key, id string, lockedTimes int) {
 	for _, debugFunc := range rl.lckDebugFunctions {
-		debugFunc(key, id, lockedTimes)
+		debugFunc(action, key, id, lockedTimes)
 	}
 }
 func (rl *reentrantLock) runClrDebugFunctions(keys []string) {
