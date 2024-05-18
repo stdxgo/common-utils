@@ -26,3 +26,11 @@ func HandlerStk(ctx context.Context, f func(stk []byte)) {
 		}
 	}
 }
+
+func HandlerReasonStk(ctx context.Context, f func(re any, stk []byte)) {
+	if re := recover(); re != nil {
+		if f != nil {
+			f(re, debug.Stack())
+		}
+	}
+}
