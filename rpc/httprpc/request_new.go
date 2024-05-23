@@ -1,5 +1,7 @@
 package httprpc
 
+import "net/http"
+
 const (
 	RPC_TRACE_KEY = "stdxgo-x-trace-id"
 )
@@ -10,6 +12,12 @@ func Timeout(sec int) Option {
 	return func(ar *appRequest) {
 		ar.timeout = sec
 		ar.client = getTimeoutHTTPClient(sec)
+	}
+}
+
+func WithHTTPCli(cli *http.Client) Option {
+	return func(ar *appRequest) {
+		ar.client = cli
 	}
 }
 
